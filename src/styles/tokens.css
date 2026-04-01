@@ -1,0 +1,48 @@
+/* ==========================================================================
+   ResultX Site — Brand Tokens
+   Extracted from brand book + Manus reference
+   ========================================================================== */
+
+:root {
+  /* ── Brand Colors ─────────────────────────────────────────────────────── */
+  --navy: #192744;
+  --navy-dark: #0d1b2e;
+  --navy-mid: #1e3055;
+  --blue: #00AFEF;
+  --blue-hover: #00c8ff;
+  --gold: #B29442;
+  --gold-light: #D4AF5A;
+
+  /* ── Neutrals ─────────────────────────────────────────────────────────── */
+  --white: #FFFFFF;
+  --gray-light: #F0F1F3;
+  --gray-mid: #8892A4;
+  --gray-text: #69727d;
+
+  /* ── Gradients ────────────────────────────────────────────────────────── */
+  --gradient-x: linear-gradient(135deg, #2040A0, #00AFEF, #8040A0, #C08020, #B29442);
+  --gradient-blue: linear-gradient(135deg, #192744 0%, #0d1b2e 100%);
+  --gradient-hero: linear-gradient(135deg, rgba(13,27,46,0.95) 0%, rgba(25,39,68,0.85) 50%, rgba(0,175,239,0.15) 100%);
+
+  /* ── Shadows ──────────────────────────────────────────────────────────── */
+  --shadow-card: 0 20px 60px rgba(0,0,0,0.4);
+  --shadow-glow: 0 0 40px rgba(0,175,239,0.2);
+  --shadow-btn-blue: 0 8px 30px rgba(0,175,239,0.4);
+  --shadow-btn-blue-hover: 0 12px 40px rgba(0,175,239,0.6);
+  --shadow-btn-gold: 0 8px 30px rgba(178,148,66,0.4);
+  --shadow-btn-gold-hover: 0 12px 40px rgba(178,148,66,0.6);
+
+  /* ── Layout ───────────────────────────────────────────────────────────── */
+  --container: 1200px;
+  --container-wide: 1400px;
+  --radius: 16px;
+  --radius-sm: 8px;
+
+  /* ── Motion ───────────────────────────────────────────────────────────── */
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: all 0.6s ease;
+
+  /* ── Typography ───────────────────────────────────────────────────────── */
+  --font-heading: 'Poppins', sans-serif;
+  --font-body: 'Roboto', sans-serif;
+}
