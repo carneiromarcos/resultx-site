@@ -1,5 +1,13 @@
 @import url('./tokens.css');
 
+/* ── ResultX DS v2.1.0 (file: dependency) ────────────────────────────────
+   Brings shared tokens + 5 themes + 10 data-layer components.
+   Local tokens (--navy-*, --blue, --gold) are NOT overridden.
+   Activate themes via data-theme="vibrant-dark|sober-dark|premium-light"
+   on a wrapper element. ─────────────────────────────────────────────────── */
+@import url('resultx-design-system/tokens');
+@import url('resultx-design-system/components/data-cards');
+
 /* ==========================================================================
    Reset & Base
    ========================================================================== */

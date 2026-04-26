@@ -1,0 +1,162 @@
+/* ==========================================================================
+   Showcase — DS v2.1 vibrant-dark mockup section
+   ========================================================================== */
+.showcase-section {
+  padding: 6rem 0;
+  position: relative;
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(24, 196, 255, 0.10), transparent 55%),
+    radial-gradient(ellipse at 85% 90%, rgba(255, 71, 137, 0.08), transparent 50%),
+    linear-gradient(180deg, #0d1b2e 0%, #0a1626 100%);
+  color: #fff;
+  overflow: hidden;
+}
+.showcase-content {
+  position: relative;
+  z-index: 1;
+}
+.showcase-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 4rem;
+}
+.showcase-eyebrow {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(24, 196, 255, 0.9);
+  padding: 0.4rem 1rem;
+  border: 1px solid rgba(24, 196, 255, 0.30);
+  border-radius: 50px;
+  margin-bottom: 1.5rem;
+  background: rgba(24, 196, 255, 0.06);
+}
+.showcase-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+.showcase-accent {
+  background: linear-gradient(135deg, #18C4FF 0%, #FF4789 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.showcase-subtitle {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.70);
+  line-height: 1.6;
+}
+
+/* Browser frame ────────────────────────────────────────────────────────── */
+.showcase-frame {
+  background: #1A1F36;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.55),
+    0 12px 30px rgba(24, 196, 255, 0.10),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  max-width: 1100px;
+  margin: 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+.showcase-browser-bar {
+  background: rgba(0, 0, 0, 0.30);
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.showcase-browser-dots {
+  display: flex;
+  gap: 6px;
+}
+.showcase-browser-dots span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.showcase-browser-dots span:nth-child(1) { background: #FF5F57; }
+.showcase-browser-dots span:nth-child(2) { background: #FEBC2E; }
+.showcase-browser-dots span:nth-child(3) { background: #28C840; }
+.showcase-browser-url {
+  flex: 1;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.55);
+  background: rgba(0, 0, 0, 0.30);
+  padding: 0.3rem 0.85rem;
+  border-radius: 6px;
+  text-align: center;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+.showcase-app {
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* StatCards row ────────────────────────────────────────────────────────── */
+.showcase-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.showcase-spark {
+  margin-left: auto;
+}
+
+/* Donut + Chart ────────────────────────────────────────────────────────── */
+.showcase-duo {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 1rem;
+}
+.showcase-donut-card {
+  background: var(--bg-surface-1);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: var(--elevation-1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+.showcase-card-title {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  width: 100%;
+  text-align: left;
+  margin: 0;
+}
+
+.showcase-frame .dl-chart-canvas { min-height: 160px; }
+
+/* Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .showcase-section { padding: 4rem 0; }
+  .showcase-stats { grid-template-columns: 1fr; }
+  .showcase-duo { grid-template-columns: 1fr; }
+  .showcase-app { padding: 1.25rem; gap: 1rem; }
+  .showcase-frame { border-radius: 14px; }
+}
+
+@media (max-width: 600px) {
+  .showcase-browser-url { max-width: 60%; font-size: 0.7rem; }
+  .showcase-app { padding: 1rem; }
+  .showcase-table .dl-table thead { display: none; }
+  .showcase-table .dl-table tbody td { padding: 0.6rem 0.75rem; }
+}
