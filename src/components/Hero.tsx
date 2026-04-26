@@ -4,6 +4,18 @@ export default function Hero() {
   return (
     <section id="hero">
       <div className="hero-overlay" />
+      <div className="hero-coins" aria-hidden="true">
+        <div className="hero-coin hero-coin--cyan dl-coin dl-coin--cyan dl-coin--lg">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+          </svg>
+        </div>
+        <div className="hero-coin hero-coin--magenta dl-coin dl-coin--magenta dl-coin--lg">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 2 L15.09 8.26 L22 9.27 L17 14.14 L18.18 21.02 L12 17.77 L5.82 21.02 L7 14.14 L2 9.27 L8.91 8.26 Z" />
+          </svg>
+        </div>
+      </div>
       <div className="container hero-content">
         <div className="hero-badge">
           <span className="pulse-dot" />

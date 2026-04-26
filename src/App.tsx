@@ -3,6 +3,7 @@ import Hero from './components/Hero'
 import Clients from './components/Clients'
 import About from './components/About'
 import Solutions from './components/Solutions'
+import Showcase from './components/Showcase'
 import Stats from './components/Stats'
 import Methodology from './components/Methodology'
 import Differentials from './components/Differentials'
@@ -20,6 +21,7 @@ export default function App() {
       <Clients />
       <About />
       <Solutions />
+      <Showcase />
       <Stats />
       <Methodology />
       <Differentials />
