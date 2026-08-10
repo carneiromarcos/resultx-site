@@ -1,0 +1,104 @@
+name: CI
+
+# "on" entre aspas por causa do bug de chave booleana do YAML 1.1: sem elas,
+# alguns parsers coagem `on` para `true` e o GitHub Actions deixa de detectar
+# os gatilhos, fazendo o workflow falhar na largada.
+"on":
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+# POR QUE ESTE ARQUIVO EXISTE (10/08/2026)
+#
+#   O repo tinha apenas `release-gate.yml`, que checa HIGIENE de PR — titulo
+#   convencional, corpo preenchido, tamanho — e nada mais. Nao rodava lint,
+#   nao rodava build, nao rodava typecheck.
+#
+#   E nada externo cobria: a API do GitHub nao mostra check algum do Cloudflare
+#   Pages nos commits da `main`. Um PR que quebrasse o lint ou o build entrava
+#   sem sinal nenhum.
+#
+# O JOB "FUNCTIONS" E O MOTIVO PRINCIPAL DISTO AQUI
+#
+#   `functions/api/contact.ts` e `functions/api/newsletter.ts` servem
+#   /api/contact e /api/newsletter em PRODUCAO (Cloudflare Pages Functions,
+#   integracao com o Brevo).
+#
+#   Elas compilam por `tsconfig.functions.json`, que NAO e referenciado pelo
+#   `tsconfig.json` raiz (ele so aponta para app e node). Logo o
+#   `npm run build` — que e `tsc -b && vite build` — **nao passa por elas**.
+#
+#   Ate hoje nada as verificava. Descoberto em 10/08 ao subir
+#   `@cloudflare/workers-types` de v4 para v5: o bump as afeta diretamente e
+#   uma quebra teria sido silenciosa.
+#
+# POR QUE NODE 22, E NAO 20 COMO NOS REPOS IRMAOS
+#
+#   Nao e preferencia — e o que as ferramentas exigem:
+#
+#     wrangler              >=22.0.0          ← exclui o Node 20
+#     eslint                ^20.19 || ^22.13 || >=24
+#     vite                  ^20.19 || >=22.12
+#     @vitejs/plugin-react  ^20.19 || >=22.12
+#
+#   A intersecao e Node 22. O DS e o financex usam 20 porque nao tem wrangler.
+#
+# NENHUM SECRET
+#
+#   `src/` nao usa `import.meta.env`, entao o build nao depende de env.
+#   `BREVO_API_KEY` e as listas sao de RUNTIME das Functions, injetadas pelo
+#   Cloudflare como bindings — nao entram na compilacao.
+#
+# ⚠️ ISTO E SINAL, NAO BLOQUEIO
+#
+#   Repositorio privado no plano free do GitHub nao permite impor protecao de
+#   branch nem rulesets. `main` aceita push direto e PR com estes checks
+#   vermelhos continua mesclavel. Quem mescla olha o resultado — nao ha rede.
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+      # `npm ci` e nao `npm install`: instala exatamente o que o lockfile diz e
+      # falha se package.json e lockfile divergirem — o tipo de deriva que um
+      # CI deve pegar.
+      - run: npm ci
+      - run: npm run lint
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      # `tsc -b && vite build` — cobre o typecheck de src/ e a compilacao.
+      - run: npm run build
+
+  functions:
+    name: Functions (typecheck)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      # Job separado porque o `build` NAO alcanca estes arquivos: o
+      # tsconfig.functions.json esta fora das references do tsconfig raiz.
+      - name: Typecheck das Cloudflare Pages Functions
+        run: npx tsc -p tsconfig.functions.json --noEmit
