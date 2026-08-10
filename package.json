@@ -14,7 +14,7 @@
   "dependencies": {
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "resultx-design-system": "github:carneiromarcos/resultx-design-system#v2.5.0"
+    "resultx-design-system": "github:carneiromarcos/resultx-design-system#v2.3.0"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^5.20260810.1",
