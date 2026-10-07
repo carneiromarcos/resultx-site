@@ -49,7 +49,8 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     const { nome, email, telefone, empresa, desafio, consentimento } =
       (await context.request.json()) as ContactPayload
 
-    if (!email || !email.includes('@') || !nome) {
+    // O corpo é JSON de fora: tipo errado é erro do pedido (400), não do servidor.
+    if (typeof nome !== 'string' || typeof email !== 'string' || !email.includes('@') || !nome) {
       return jsonResponse({ error: 'Campos obrigatórios faltando' }, 400)
     }
 
@@ -71,8 +72,8 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         listIds: [listId],
         attributes: {
           NOME: nome,
-          TELEFONE: telefone || '',
-          NOME_EMPRESA: empresa || '',
+          TELEFONE: typeof telefone === 'string' ? telefone : '',
+          NOME_EMPRESA: typeof empresa === 'string' ? empresa : '',
           FONTE_CAPTACAO: 'resultx.app',
           DESAFIO: cleanDesafio(desafio),
           CONSENTIMENTO_LGPD: consentDate(new Date()),
