@@ -29,7 +29,7 @@ const PRODUCTS: Product[] = [
   {
     name: 'Electia',
     kind: 'Avaliação comportamental e recrutamento',
-    text: 'People Intelligence: conecta comportamento, competências, desempenho, reuniões e contexto profissional para ajudar empresas a selecionar, posicionar, desenvolver e liderar melhor.',
+    text: 'Plataforma de gestão de pessoas que reúne testes comportamentais, recrutamento e avaliação de desempenho.',
     href: 'https://electia.empregamais.me/',
     hrefLabel: 'electia.empregamais.me',
   },

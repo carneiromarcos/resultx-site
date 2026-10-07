@@ -49,6 +49,12 @@ export default function Header() {
     const root = document.documentElement
     const previousOverflow = root.style.overflow
     root.style.overflow = 'hidden'
+    /* Com a gaveta aberta, o resto da página sai do foco e da árvore de
+       acessibilidade. O header fica de fora: o botão do menu recebe o foco
+       de volta no fechamento, antes de esta limpeza rodar. */
+    const background = [document.getElementById('conteudo'), document.querySelector<HTMLElement>('.site-footer')]
+      .filter((el): el is HTMLElement => el !== null)
+    background.forEach((el) => { el.inert = true })
     const drawer = drawerRef.current
     if (drawer) focusableIn(drawer)[0]?.focus()
 
@@ -58,6 +64,7 @@ export default function Header() {
 
     return () => {
       root.style.overflow = previousOverflow
+      background.forEach((el) => { el.inert = false })
       media.removeEventListener('change', onMediaChange)
     }
   }, [open])

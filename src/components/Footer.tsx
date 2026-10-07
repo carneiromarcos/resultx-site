@@ -40,9 +40,9 @@ export default function Footer() {
           </ul>
         </nav>
 
-        <div className="footer-col">
+        <nav className="footer-col" aria-labelledby="ft-contato">
           <h2 id="ft-contato">Contato</h2>
-          <ul aria-labelledby="ft-contato">
+          <ul>
             <li>
               <a href={`mailto:${CONTACT.email}`}><Icon name="mail" size="sm" />{CONTACT.email}</a>
             </li>
@@ -52,7 +52,7 @@ export default function Footer() {
               </a>
             </li>
           </ul>
-        </div>
+        </nav>
       </div>
       <div className="wrap footer-bottom">
         <p>© {new Date().getFullYear()} ResultX. Todos os direitos reservados.</p>

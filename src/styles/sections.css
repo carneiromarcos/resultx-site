@@ -339,7 +339,7 @@
 
 .diagnosis-submit { inline-size: 100%; justify-content: center; margin-block-start: var(--space-2); }
 .form-status { min-block-size: 1.5em; margin-block-start: var(--space-2); color: var(--color-error); font-size: var(--text-sm); }
-.form-status:empty { min-block-size: 0; }
+.form-status:empty { min-block-size: 0; margin: 0; }
 
 .diagnosis-success { justify-items: start; gap: var(--space-4); }
 .diagnosis-success:focus { outline: none; }

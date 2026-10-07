@@ -65,6 +65,7 @@ export default function DiagnosisForm() {
   const [errors, setErrors] = useState<DiagnosisErrors>({})
   const [status, setStatus] = useState<Status>('idle')
   const successRef = useRef<HTMLDivElement>(null)
+  const sendingRef = useRef(false)
 
   function update(field: DiagnosisField) {
     return (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -77,6 +78,9 @@ export default function DiagnosisForm() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    /* Ref, não estado: dois submits no mesmo tick enxergariam o mesmo
+       `status` antigo e passariam os dois. */
+    if (sendingRef.current) return
     const found = validateDiagnosis(values)
     setErrors(found)
     const firstInvalid = FIELD_ORDER.find((field) => found[field])
@@ -85,6 +89,7 @@ export default function DiagnosisForm() {
       return
     }
 
+    sendingRef.current = true
     setStatus('sending')
     try {
       const ok = await sendDiagnosis(values)
@@ -95,6 +100,8 @@ export default function DiagnosisForm() {
       }
     } catch {
       setStatus('error')
+    } finally {
+      sendingRef.current = false
     }
   }
 
@@ -165,9 +172,11 @@ export default function DiagnosisForm() {
       <button type="submit" className="btn btn-primary btn-lg diagnosis-submit" disabled={sending} aria-busy={sending}>
         {sending ? 'Enviando…' : 'Solicitar diagnóstico gratuito'}
       </button>
-      <p className="form-status" role="alert">
-        {status === 'error' && 'Não foi possível enviar agora. Tente de novo ou fale com a gente pelo WhatsApp.'}
-      </p>
+      {/* Contêiner estável: existe desde o início, então o leitor de tela
+          anuncia a mensagem quando ela entra. */}
+      <div className="form-status" aria-live="assertive" aria-atomic="true">
+        {status === 'error' && <p>Não foi possível enviar agora. Tente de novo ou fale com a gente pelo WhatsApp.</p>}
+      </div>
     </form>
   )
 }
