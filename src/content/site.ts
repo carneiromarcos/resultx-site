@@ -14,6 +14,9 @@ export const CONTACT = {
   whatsappLabel: '(11) 97694-7557',
 } as const
 
+/* Página estática privacidade.html, servida em /privacidade pelo Cloudflare Pages. */
+export const PRIVACY_HREF = '/privacidade'
+
 export const CTA_DIAGNOSIS = {
   href: '#diagnostico',
   label: 'Solicitar diagnóstico gratuito',

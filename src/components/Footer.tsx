@@ -1,6 +1,6 @@
 import Icon from './Icon'
 import Logo from './Logo'
-import { CONTACT, CTA_DIAGNOSIS, NAV_LINKS } from '../content/site'
+import { CONTACT, CTA_DIAGNOSIS, NAV_LINKS, PRIVACY_HREF } from '../content/site'
 
 /* Rodapé no padrão do hub Emprega+ (DS, 07/10): marca + resumo, colunas com
    rótulo em mono, base com direitos. Só links que levam a algum lugar. */
@@ -56,6 +56,7 @@ export default function Footer() {
       </div>
       <div className="wrap footer-bottom">
         <p>© {new Date().getFullYear()} ResultX. Todos os direitos reservados.</p>
+        <a href={PRIVACY_HREF}>Política de Privacidade</a>
       </div>
     </footer>
   )

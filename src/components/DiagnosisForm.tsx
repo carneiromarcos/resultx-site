@@ -1,5 +1,6 @@
 import { useRef, useState, type ChangeEvent, type FormEvent } from 'react'
 import Icon from './Icon'
+import { PRIVACY_HREF } from '../content/site'
 import {
   DIAGNOSIS_LIMITS,
   EMPTY_DIAGNOSIS,
@@ -164,8 +165,12 @@ export default function DiagnosisForm() {
           required
         />
         <label htmlFor={fieldId('consentimento')}>
-          Autorizo a ResultX a usar estes dados para entrar em contato sobre o diagnóstico, conforme a
-          Lei Geral de Proteção de Dados (LGPD).
+          Autorizo a ResultX a usar estes dados para entrar em contato sobre o diagnóstico, conforme a{' '}
+          {/* Nova aba: abrir na mesma perderia o que já foi digitado. */}
+          <a href={PRIVACY_HREF} target="_blank" rel="noopener">
+            Política de Privacidade<span className="sr-only"> (abre em nova aba)</span>
+          </a>{' '}
+          (LGPD).
         </label>
         {errors.consentimento && <p className="field-error" id={errorId('consentimento')}>{errors.consentimento}</p>}
       </div>
