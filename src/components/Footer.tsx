@@ -1,68 +1,61 @@
-import Newsletter from './Newsletter'
-import './Footer.css'
+import Icon from './Icon'
+import Logo from './Logo'
+import { CONTACT, CTA_DIAGNOSIS, NAV_LINKS } from '../content/site'
+
+/* Rodapé no padrão do hub Emprega+ (DS, 07/10): marca + resumo, colunas com
+   rótulo em mono, base com direitos. Só links que levam a algum lugar. */
+
+const PRODUCTS = [
+  { label: 'Emprega+', href: 'https://www.empregamais.me/' },
+  { label: 'Electia', href: 'https://electia.empregamais.me/' },
+]
 
 export default function Footer() {
   return (
-    <footer>
-      <div className="container">
-        <div className="footer-grid">
-          <div className="footer-brand">
-            <img src="/images/logo-resultx.svg" alt="ResultX" className="footer-logo" />
-            <p>
-              Consultoria em transformação digital. Unimos estratégia, tecnologia e IA para
-              acelerar resultados.
-            </p>
-            <div className="social-links">
-              <a href="#" className="social-btn" title="LinkedIn" aria-label="LinkedIn">in</a>
-              <a href="#" className="social-btn" title="Instagram" aria-label="Instagram">ig</a>
-              <a href="#" className="social-btn" title="YouTube" aria-label="YouTube">yt</a>
-              <a href="https://wa.me/5511997955029" className="social-btn" title="WhatsApp" aria-label="WhatsApp">wa</a>
-            </div>
-          </div>
-
-          <div className="footer-col">
-            <h4>Soluções</h4>
-            <ul>
-              <li><a href="#solutions">Implementação de IA</a></li>
-              <li><a href="#solutions">Cursos e Treinamento</a></li>
-              <li><a href="#solutions">Mudanças Estruturais</a></li>
-              <li><a href="#solutions">Squads de Desenvolvimento</a></li>
-            </ul>
-          </div>
-
-          <div className="footer-col">
-            <h4>Empresa</h4>
-            <ul>
-              <li><a href="#about">Sobre a ResultX</a></li>
-              <li><a href="#methodology">Metodologia</a></li>
-              <li><a href="#differentials">Diferenciais</a></li>
-              <li><a href="#blog">Blog</a></li>
-              <li><a href="#cta">Carreiras</a></li>
-            </ul>
-          </div>
-
-          <div className="footer-col">
-            <h4>Contato</h4>
-            <ul>
-              <li><a href="mailto:marcos@empregamais.me">marcos@empregamais.me</a></li>
-              <li><a href="https://wa.me/5511997955029">+55 (11) 9 9795-5029</a></li>
-              <li><a href="#cta">Agendar Reunião</a></li>
-              <li><a href="#cta">Diagnóstico Gratuito</a></li>
-            </ul>
-          </div>
+    <footer className="site-footer">
+      <div className="wrap footer-grid">
+        <div className="footer-brand">
+          <a href="#inicio" aria-label="ResultX, voltar ao início"><Logo /></a>
+          <p className="footer-about">Implementação de IA e melhoria de processos.</p>
         </div>
 
-        <div className="footer-newsletter">
-          <Newsletter />
-        </div>
+        <nav className="footer-col" aria-labelledby="ft-navegue">
+          <h2 id="ft-navegue">Navegue</h2>
+          <ul>
+            {NAV_LINKS.map((link) => (
+              <li key={link.href}><a href={link.href}>{link.label}</a></li>
+            ))}
+            <li><a href={CTA_DIAGNOSIS.href}>Diagnóstico gratuito</a></li>
+          </ul>
+        </nav>
 
-        <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} ResultX. Todos os direitos reservados.</p>
-          <div className="footer-legal">
-            <a href="#">Política de Privacidade</a>
-            <a href="#">Termos de Uso</a>
-          </div>
+        <nav className="footer-col" aria-labelledby="ft-produtos">
+          <h2 id="ft-produtos">Produtos do grupo</h2>
+          <ul>
+            {PRODUCTS.map((product) => (
+              <li key={product.href}>
+                <a href={product.href} target="_blank" rel="noopener">{product.label}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="footer-col">
+          <h2 id="ft-contato">Contato</h2>
+          <ul aria-labelledby="ft-contato">
+            <li>
+              <a href={`mailto:${CONTACT.email}`}><Icon name="mail" size="sm" />{CONTACT.email}</a>
+            </li>
+            <li>
+              <a href={CONTACT.whatsappHref} target="_blank" rel="noopener">
+                <Icon name="message-circle" size="sm" />{CONTACT.whatsappLabel}
+              </a>
+            </li>
+          </ul>
         </div>
+      </div>
+      <div className="wrap footer-bottom">
+        <p>© {new Date().getFullYear()} ResultX. Todos os direitos reservados.</p>
       </div>
     </footer>
   )
