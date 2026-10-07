@@ -1,161 +1,120 @@
+/* ── ResultX Design System (tag git, ver package.json) ──────────────────────
+   Mesma ordem das páginas das outras marcas no DS:
+   tokens do DS → tokens da marca → ponte da marca → componentes → ícones.
+   O tema é o escuro do DS (data-theme="dark" no <html>), com o grafite que é
+   a base única do ecossistema; a ponte troca o accent para o ouro ResultX. */
+@import url('resultx-design-system/tokens');
+@import url('resultx-design-system/brands/resultx/tokens');
+@import url('resultx-design-system/brands/resultx/bridge');
+@import url('resultx-design-system/components');
+@import url('resultx-design-system/icons');
 @import url('./tokens.css');
 
-/* ── ResultX DS v2.1.0 (file: dependency) ────────────────────────────────
-   Brings shared tokens + 5 themes + 10 data-layer components.
-   Local tokens (--navy-*, --blue, --gold) are NOT overridden.
-   Activate themes via data-theme="vibrant-dark|sober-dark|premium-light"
-   on a wrapper element. ─────────────────────────────────────────────────── */
-@import url('resultx-design-system/tokens');
-@import url('resultx-design-system/components/data-cards');
-
 /* ==========================================================================
-   Reset & Base
+   Base
    ========================================================================== */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + var(--space-8)); }
 body {
+  /* O body do DS é flex (casca de app); página de site é fluxo normal,
+     como no hub Emprega+. Sem isto, filhos diretos do body ficam lado a lado. */
+  display: flow-root;
+  position: relative;
+  margin: 0;
+  overflow-x: clip;
+  background: var(--bg-base);
+  color: var(--text-primary);
   font-family: var(--font-body);
-  background: var(--navy-dark);
-  color: var(--white);
-  overflow-x: hidden;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: var(--leading-relaxed);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
-h1, h2, h3, h4, h5 { font-family: var(--font-heading); line-height: 1.2; }
-a { text-decoration: none; color: inherit; }
-ul { list-style: none; }
-img { max-width: 100%; height: auto; display: block; }
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3 { font-family: var(--font-heading); color: var(--text-primary); line-height: var(--leading-tight); }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
 
-/* ==========================================================================
-   Scrollbar
-   ========================================================================== */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--navy-dark); }
-::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 3px; }
-
-/* ==========================================================================
-   Utilities
-   ========================================================================== */
-.container {
-  max-width: var(--container);
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-.container-wide {
-  max-width: var(--container-wide);
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-.section-label {
-  font-family: var(--font-heading);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--blue);
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-.section-label::before {
-  content: '';
-  display: inline-block;
-  width: 40px;
-  height: 2px;
-  background: var(--gradient-x);
-}
-.gradient-text {
-  background: var(--gradient-x);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
 }
 
 /* ==========================================================================
-   Buttons
+   Estrutura da página
    ========================================================================== */
-.btn {
+.wrap {
+  inline-size: min(var(--page-max), calc(100% - 2 * var(--page-gutter)));
+  margin-inline: auto;
+}
+.section { padding-block: var(--page-section); }
+.section + .section { padding-block-start: 0; }
+.band-tint {
+  padding-block: var(--page-section);
+  background: var(--bg-surface-1);
+  border-block: 1px solid var(--border-subtle);
+}
+.section + .band-tint,
+.band-tint + .section { padding-block-start: var(--page-section); }
+
+.section-head { display: grid; gap: var(--space-4); max-inline-size: 760px; margin-block-end: var(--space-12); }
+.section-head h2 { font-size: var(--page-h2); font-weight: var(--font-bold); letter-spacing: var(--tracking-tight); text-wrap: balance; }
+.section-head p { color: var(--text-secondary); font-size: var(--text-lg); }
+
+.eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.875rem 2rem;
-  border-radius: 50px;
-  font-family: var(--font-heading);
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-decoration: none;
-  cursor: pointer;
-  border: none;
-  transition: var(--transition);
-  letter-spacing: 0.02em;
+  gap: var(--space-3);
+  color: var(--accent-primary-text);
+  font: var(--font-semibold) var(--text-xs) / 1.5 var(--font-heading);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
-.btn-primary {
-  background: var(--blue);
-  color: var(--white);
-  box-shadow: var(--shadow-btn-blue);
+.eyebrow::before {
+  content: '';
+  inline-size: var(--space-8);
+  block-size: 2px;
+  border-radius: var(--radius-full);
+  background: var(--rx-gradient-bridge);
 }
-.btn-primary:hover {
-  background: var(--blue-hover);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-btn-blue-hover);
+
+.skip-link {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: var(--z-toast);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--bg-base);
+  color: var(--text-primary);
+  transform: translateY(-200%);
 }
-.btn-outline {
-  background: transparent;
-  color: var(--white);
-  border: 2px solid rgba(255,255,255,0.3);
-  backdrop-filter: blur(10px);
-}
-.btn-outline:hover {
-  border-color: var(--blue);
-  color: var(--blue);
-  transform: translateY(-2px);
-}
-.btn-gold {
-  background: linear-gradient(135deg, var(--gold), var(--gold-light));
-  color: var(--navy-dark);
-  box-shadow: var(--shadow-btn-gold);
-}
-.btn-gold:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-btn-gold-hover);
+.skip-link:focus { transform: none; }
+
+a:focus-visible, button:focus-visible, summary:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
 }
 
 /* ==========================================================================
-   Animations
+   Logomarca ResultX — o arquivo oficial do site (public/images/logo-resultx.svg)
+   tem viewBox quadrado de 300 com a marca no meio. Recorte por CSS, sem tocar
+   no arquivo: caixa visível medida em x 20,75–277,75 e y 112,25–189,5.
+   --logo-h é a altura da marca visível.
    ========================================================================== */
-.fade-in {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+.rx-logo {
+  --logo-h: 24px;
+  position: relative;
+  display: block;
+  flex: none;
+  overflow: hidden;
+  block-size: var(--logo-h);
+  aspect-ratio: 257 / 77.25;
 }
-.fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.fade-in-left {
-  opacity: 0;
-  transform: translateX(-30px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.fade-in-left.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-.fade-in-right {
-  opacity: 0;
-  transform: translateX(30px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.fade-in-right.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* ==========================================================================
-   Responsive
-   ========================================================================== */
-@media (max-width: 768px) {
-  .container, .container-wide { padding: 0 1.25rem; }
+.rx-logo img {
+  position: absolute;
+  max-inline-size: none;
+  inline-size: calc(var(--logo-h) * 300 / 77.25);
+  block-size: auto;
+  left: calc(var(--logo-h) * -20.75 / 77.25);
+  top: calc(var(--logo-h) * -112.25 / 77.25);
 }

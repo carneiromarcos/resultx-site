@@ -1,0 +1,16 @@
+/* Header na proporção dos sites do grupo, como no hub Emprega+ (07/10):
+   logomarca de 25 px, links de 16 px, barra de ~76 px (16 px de respiro +
+   alvo de 44 px). Só a página muda: header-float.css do DS segue intacto. */
+.header-float .rx-logo { --logo-h: var(--page-header-logo); }
+.header-float .header-float-brand { min-block-size: 44px; }
+
+@media (min-width: 1024px) {
+  .header-float .header-float-bar { min-block-size: calc(2 * var(--space-4) + 44px); }
+  .header-float .header-float-links { gap: var(--space-2); }
+  .header-float .header-float-links a { font-size: var(--page-header-link); }
+}
+
+/* Os botões nativos do React herdam o reset do DS para .header-float-icon e
+   .menu-drawer-close; só a fonte e o cursor precisam vir do botão. */
+.header-float-icon,
+.menu-drawer-close { font: inherit; cursor: pointer; }

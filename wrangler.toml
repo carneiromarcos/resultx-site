@@ -3,7 +3,6 @@ compatibility_date = "2024-12-01"
 pages_build_output_dir = "dist"
 
 [vars]
-BREVO_NEWSLETTER_LIST_ID = "22"
 BREVO_CONTACT_LIST_ID = "23"
 
 # BREVO_API_KEY must be set as a secret:

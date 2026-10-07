@@ -1,0 +1,31 @@
+/* Página /privacidade (privacidade.html). Mesmos tokens e base do site;
+   só o layout de texto longo é desta página. */
+@import url('./global.css');
+@import url('./sections.css');
+
+.policy-bar { display: flex; justify-content: space-between; }
+.header-float .rx-logo { --logo-h: var(--page-header-logo); }
+.policy-back { text-decoration: none; }
+
+.policy {
+  max-inline-size: 760px;
+  padding-block: clamp(var(--space-12), 6vw, var(--space-20));
+  color: var(--text-secondary);
+  font-size: var(--text-lg);
+}
+.policy h1 {
+  margin-block: var(--space-4) var(--space-2);
+  font-size: var(--page-h2);
+  font-weight: var(--font-bold);
+  letter-spacing: var(--tracking-tight);
+}
+.policy-date { color: var(--text-muted); font-size: var(--text-sm); }
+.policy section { display: grid; gap: var(--space-3); margin-block-start: var(--space-10); }
+.policy h2 { font-size: var(--text-xl); }
+.policy ul { display: grid; gap: var(--space-2); padding-inline-start: var(--space-5); list-style: disc; }
+.policy ul li::marker { color: var(--accent-primary-text); }
+.policy strong { color: var(--text-primary); }
+.policy a { color: var(--accent-primary-text); text-underline-offset: 0.2em; overflow-wrap: anywhere; }
+
+.policy-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-4); margin-block-start: 0; }
+.site-footer:has(.policy-footer) { padding-block-start: 0; }

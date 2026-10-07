@@ -24,8 +24,8 @@ concurrency:
 #
 # O JOB "FUNCTIONS" E O MOTIVO PRINCIPAL DISTO AQUI
 #
-#   `functions/api/contact.ts` e `functions/api/newsletter.ts` servem
-#   /api/contact e /api/newsletter em PRODUCAO (Cloudflare Pages Functions,
+#   `functions/api/contact.ts` serve
+#   /api/contact em PRODUCAO (Cloudflare Pages Functions,
 #   integracao com o Brevo).
 #
 #   Elas compilam por `tsconfig.functions.json`, que NAO e referenciado pelo

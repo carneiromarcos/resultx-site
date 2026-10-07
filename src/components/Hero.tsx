@@ -1,59 +1,51 @@
-import './Hero.css'
+import Icon, { type IconName } from './Icon'
+import { CTA_DIAGNOSIS } from '../content/site'
+
+/* Bloco 1 — Promessa e chamada principal. Texto da proposta de 07/10. */
+
+const FLOW: { icon: IconName; title: string; text: string }[] = [
+  { icon: 'clock', title: 'Identificar os gargalos', text: 'Onde a operação perde tempo e informação.' },
+  { icon: 'bot', title: 'Implementar IA e automações', text: 'Soluções conectadas aos seus processos.' },
+  { icon: 'graduation-cap', title: 'Capacitar a equipe', text: 'Para usar no dia a dia e ganhar autonomia.' },
+]
 
 export default function Hero() {
   return (
-    <section id="hero">
-      <div className="hero-overlay" />
-      <div className="hero-coins" aria-hidden="true">
-        <div className="hero-coin hero-coin--cyan dl-coin dl-coin--cyan dl-coin--lg">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-          </svg>
-        </div>
-        <div className="hero-coin hero-coin--magenta dl-coin dl-coin--magenta dl-coin--lg">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 2 L15.09 8.26 L22 9.27 L17 14.14 L18.18 21.02 L12 17.77 L5.82 21.02 L7 14.14 L2 9.27 L8.91 8.26 Z" />
-          </svg>
-        </div>
-      </div>
-      <div className="container hero-content">
-        <div className="hero-badge">
-          <span className="pulse-dot" />
-          Consultoria em Transformação Digital
-        </div>
-        <h1 className="hero-title">
-          Transformamos negócios com <span className="accent">IA e estratégia</span> de verdade
-        </h1>
-        <p className="hero-subtitle">
-          Implementamos inteligência artificial, reestruturamos processos e montamos squads de
-          desenvolvimento para empresas que querem resultados reais — não apenas relatórios.
-        </p>
-        <div className="hero-actions">
-          <a href="#cta" className="btn btn-primary">
-            Agendar Diagnóstico Gratuito →
-          </a>
-          <a href="#solutions" className="btn btn-outline">
-            Conhecer Soluções
-          </a>
-        </div>
-        <div className="hero-stats">
-          <div className="hero-stat">
-            <span className="hero-stat-num">200+</span>
-            <span className="hero-stat-label">Empresas atendidas</span>
+    <section className="hero" id="inicio" aria-labelledby="hero-title">
+      <div className="wrap hero-grid">
+        <div className="hero-copy">
+          <p className="eyebrow">Implementação de IA e melhoria de processos</p>
+          <h1 id="hero-title">Sua empresa pode produzir mais com menos trabalho manual.</h1>
+          <p className="hero-lead">
+            A ResultX identifica os gargalos da sua operação, implementa inteligência artificial e
+            automações e capacita sua equipe para ganhar produtividade, reduzir custos e decidir com
+            mais informação.
+          </p>
+          <div className="hero-actions">
+            <a className="btn btn-primary btn-lg btn-sheen" href={CTA_DIAGNOSIS.href}>
+              Quero identificar oportunidades na minha empresa
+              <Icon name="arrow-right" size="sm" />
+            </a>
+            <a className="btn btn-secondary btn-lg" href="#aplicacoes">
+              Conhecer aplicações de IA
+            </a>
           </div>
-          <div className="hero-stat">
-            <span className="hero-stat-num">97%</span>
-            <span className="hero-stat-label">Satisfação</span>
-          </div>
-          <div className="hero-stat">
-            <span className="hero-stat-num">3x</span>
-            <span className="hero-stat-label">Mais velocidade</span>
-          </div>
+          <p className="hero-note">
+            Comece com um diagnóstico gratuito dos seus desafios e das oportunidades de melhoria.
+          </p>
         </div>
-      </div>
-      <div className="hero-scroll">
-        <span>Scroll</span>
-        <div className="scroll-line" />
+
+        <ol className="hero-flow" aria-label="Como a ResultX trabalha">
+          {FLOW.map((step) => (
+            <li key={step.title} className="hero-flow-step">
+              <span className="icon-chip" aria-hidden="true"><Icon name={step.icon} /></span>
+              <span>
+                <strong>{step.title}</strong>
+                <span>{step.text}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   )
