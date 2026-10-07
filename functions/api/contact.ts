@@ -8,6 +8,27 @@ interface ContactPayload {
   email?: string
   telefone?: string
   empresa?: string
+  desafio?: unknown
+  consentimento?: unknown
+}
+
+/* Mesmo limite do cliente (src/lib/diagnosis.ts, CHALLENGE_MAX). */
+const DESAFIO_MAX = 1000
+const TIME_ZONE = 'America/Sao_Paulo'
+
+/* Data do consentimento no formato do atributo de data da Brevo (YYYY-MM-DD),
+   no fuso de São Paulo: um envio às 22h de Brasília conta para o mesmo dia. */
+function consentDate(now: Date): string {
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: TIME_ZONE,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(now)
+}
+
+function cleanDesafio(value: unknown): string {
+  return typeof value === 'string' ? value.trim().slice(0, DESAFIO_MAX) : ''
 }
 
 const corsHeaders = {
@@ -25,11 +46,16 @@ function jsonResponse(body: object, status = 200) {
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
   try {
-    const { nome, email, telefone, empresa } =
+    const { nome, email, telefone, empresa, desafio, consentimento } =
       (await context.request.json()) as ContactPayload
 
     if (!email || !email.includes('@') || !nome) {
       return jsonResponse({ error: 'Campos obrigatórios faltando' }, 400)
+    }
+
+    // Sem consentimento explícito (LGPD), nada é gravado.
+    if (consentimento !== true) {
+      return jsonResponse({ error: 'Consentimento obrigatório' }, 400)
     }
 
     const listId = Number(context.env.BREVO_CONTACT_LIST_ID) || 23
@@ -48,6 +74,8 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
           TELEFONE: telefone || '',
           NOME_EMPRESA: empresa || '',
           FONTE_CAPTACAO: 'resultx.app',
+          DESAFIO: cleanDesafio(desafio),
+          CONSENTIMENTO_LGPD: consentDate(new Date()),
         },
         updateEnabled: true,
       }),
