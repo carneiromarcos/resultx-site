@@ -13,8 +13,10 @@ import { revealIndex } from '../hooks/useReveal'
    Telas, todas com dados de demonstração e sem a barra lateral:
    - Electia: protótipos do DS (brands/electia/previews/prototypes, 05 e 06/10).
    - Xscore: rotas /styleguide/finance do app (fixtures fictícias, next dev
-     local sem .env, 08/10). Visão geral sem a barra superior (tinha um rótulo
-     interno); Carteira recortada até a coluna "Maior atraso". */
+     local sem .env, 08/10). Visão geral só com os indicadores, o gráfico e a lista (sem cabeçalho,
+     título nem rodapé, que falavam de crédito); Carteira até a coluna
+     "Maior atraso", com o rótulo interno da faixa da tabela coberto pela cor
+     da própria faixa. */
 
 interface Product {
   name: string
@@ -57,14 +59,14 @@ const PRODUCTS: Product[] = [
       {
         src: '/images/produtos/xscore-visao-geral.webp',
         width: 1600,
-        height: 1103,
+        height: 744,
         alt: 'Visão geral do Xscore: carteira a receber, total vencido, pontualidade em valor, clientes acima do limite, gráfico da evolução da carteira e lista de quem acompanhar, com dados de demonstração.',
         address: 'xscore · Visão geral',
       },
       {
         src: '/images/produtos/xscore-carteira.webp',
         width: 1600,
-        height: 882,
+        height: 845,
         alt: 'Carteira de clientes do Xscore: filtros por situação, busca e tabela com limite, valor em uso, vencido e maior atraso de empresas fictícias.',
         address: 'xscore · Carteira de clientes',
       },

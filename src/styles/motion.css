@@ -232,8 +232,10 @@
 }
 .screen-frame-img { inline-size: 100%; block-size: auto; }
 
-.product-feature .screen-front { transition: transform 600ms var(--spring-smooth), box-shadow 600ms var(--spring-smooth); }
-.product-feature:hover .screen-front { transform: translateY(-6px); }
+/* Hover usa a propriedade translate: o transform fica livre para a
+   inclinação ligada à rolagem (.screen-tilt), e os dois se somam. */
+.product-feature .screen-front { transition: translate 600ms var(--spring-smooth), box-shadow 600ms var(--spring-smooth); }
+.product-feature:hover .screen-front { translate: 0 -6px; }
 
 /* Parallax/inclinação ligada à rolagem, sem JS. */
 @supports (animation-timeline: view()) {
@@ -331,11 +333,19 @@
   .card-lift:focus-within,
   .card-lift:active,
   .card-lift:hover .icon-chip,
-  .method-step:hover .method-deliverable,
-  .product-feature:hover .screen-front { transform: none; }
+  .method-step:hover .method-deliverable { transform: none; }
+  .product-feature:hover .screen-front { translate: none; }
   .card-lift::after { transform: none; transition: opacity var(--lift-duration); }
   .card-lift,
   .card-lift .icon-chip,
   .method-deliverable,
   .product-feature .screen-front { transition-property: box-shadow, border-color, background-color, opacity; }
+}
+
+/* ── Impressão: tudo visível, sem estados intermediários ─────────────────── */
+@media print {
+  .js-reveal [data-reveal] { opacity: 1 !important; translate: none !important; }
+  .js-reveal .method-step::before,
+  .js-reveal .method-step::after { transform: none !important; }
+  .screen-tilt { animation: none !important; transform: none !important; }
 }

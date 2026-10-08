@@ -1,10 +1,12 @@
 import { useEffect, type CSSProperties } from 'react'
 
 /* Revelação ao rolar, por melhoria progressiva.
-   O CSS só esconde [data-reveal] quando <html> tem a classe .js-reveal, e é
-   este hook que a coloca, depois de confirmar que há IntersectionObserver e
-   que a pessoa não pediu movimento reduzido. Sem JS, sem suporte ou com
-   movimento reduzido, todo o conteúdo fica visível e parado.
+   O CSS só esconde [data-reveal] quando <html> tem a classe .js-reveal.
+   Quem a liga primeiro é o script inline do <head> (index.html), antes da
+   primeira pintura, com as MESMAS condições daqui: há IntersectionObserver e
+   a pessoa não pediu movimento reduzido. O hook confirma (liga de novo, sem
+   efeito) ou desliga se as condições falharem, e observa a rolagem.
+   Sem suporte ou com movimento reduzido, tudo fica visível e parado.
    Só opacity e translate mudam: nada empurra o layout (sem CLS). */
 
 const REVEAL_SELECTOR = '[data-reveal]'
@@ -18,9 +20,12 @@ export function useReveal(): void {
   useEffect(() => {
     const canAnimate =
       'IntersectionObserver' in window && !window.matchMedia(REDUCED_MOTION_QUERY).matches
-    if (!canAnimate) return
-
     const root = document.documentElement
+    if (!canAnimate) {
+      root.classList.remove(ENABLED_CLASS)
+      return
+    }
+
     const targets = Array.from(document.querySelectorAll<HTMLElement>(REVEAL_SELECTOR))
 
     const observer = new IntersectionObserver(

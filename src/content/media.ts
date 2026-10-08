@@ -26,8 +26,9 @@ export type AmbientSlot = 'hero' | 'servicos' | 'metodo' | 'diagnostico'
    O original tem 2752 × 1536 com a metade esquerda em grafite liso e uma
    emenda vertical no meio: o arquivo publicado é só a metade direita
    (recorte a partir de x = 1392), e o CSS funde a borda esquerda no fundo.
-   Opção A ativa; a opção B fica pronta em /images/ambiencia/hero-b*.webp —
-   para trocar, substitua "hero-a" por "hero-b" nos três caminhos abaixo. */
+   Opção A ativa. A opção B (alternativa) não é publicada: o original está no
+   scratch da sessão de 08/10 (hero/hero-b.png, 2752 × 1536). Para usá-la,
+   gere hero-b.webp e hero-b-800.webp com o mesmo recorte e troque os caminhos. */
 const HERO_A: AmbientImage = {
   src: '/images/ambiencia/hero-a.webp',
   width: 1360,
