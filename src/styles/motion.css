@@ -316,6 +316,64 @@
   }
 }
 
+/* Seções: atmosfera de baixo contraste. A opacidade de cada slot foi medida
+   para o texto por cima manter >= 4.5:1 sobre o ponto mais claro da arte.
+   Todas somem nas bordas para o grafite. */
+.ambience-servicos {
+  inset: auto 0 0 0;
+  block-size: 72%;
+  object-position: center bottom;
+  opacity: 0.4;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 30%, #000 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 30%, #000 70%, transparent 100%);
+}
+.ambience-metodo { object-position: center; opacity: 0.16; }
+/* Diagnóstico: só atrás da coluna de texto; some antes do formulário. */
+.ambience-diagnostico {
+  inset: 0 auto 0 0;
+  inline-size: 58%;
+  object-position: left center;
+  opacity: 0.12;
+  -webkit-mask-image:
+    linear-gradient(to right, #000 0%, #000 45%, transparent 92%),
+    linear-gradient(to bottom, transparent 0%, #000 22%, #000 74%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, #000 0%, #000 45%, transparent 92%),
+    linear-gradient(to bottom, transparent 0%, #000 22%, #000 74%, transparent 100%);
+  mask-composite: intersect;
+}
+@media (max-width: 1023.98px) {
+  .ambience-servicos { block-size: 55%; }
+  /* Coluna única: o texto vem antes do formulário, então a arte fica no
+     topo e se apaga antes de chegar a ele. */
+  .ambience-diagnostico {
+    inset: 0 0 auto 0;
+    inline-size: 100%;
+    block-size: 38%;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 20%, #000 55%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 20%, #000 55%, transparent 100%);
+  }
+}
+
+/* Deriva lenta ligada à rolagem (só transform), sem JS. Desligada com
+   movimento reduzido e na impressão. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .ambience-servicos,
+    .ambience-metodo,
+    .ambience-diagnostico {
+      animation: ambience-drift linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+@keyframes ambience-drift {
+  from { transform: translateY(-3%); }
+  to   { transform: translateY(3%); }
+}
+
 /* ── Responsivo ──────────────────────────────────────────────────────────── */
 @media (max-width: 1023.98px) {
   .product-feature { grid-template-columns: minmax(0, 1fr); }
@@ -347,5 +405,6 @@
   .js-reveal [data-reveal] { opacity: 1 !important; translate: none !important; }
   .js-reveal .method-step::before,
   .js-reveal .method-step::after { transform: none !important; }
-  .screen-tilt { animation: none !important; transform: none !important; }
+  .screen-tilt,
+  .ambience { animation: none !important; transform: none !important; }
 }
