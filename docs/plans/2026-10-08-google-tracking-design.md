@@ -2,7 +2,7 @@
 
 Data: 08/10/2026. Story: [resultx-google-tracking-2026-10-08](../stories/resultx-google-tracking-2026-10-08.md).
 
-O escopo funcional foi autorizado por Marcos com "faca isso", em resposta à auditoria do ResultX. Arquitetura aprovada por @architect e classificação T2 confirmada por @devops, conforme comunicação do coordenador em 08/10/2026. IDs reais verificados: GA4 G-7LHE3BLF2Z, propriedade558121580 e GTM-56DCXS3G. Consentimento estatístico separado do contato, Google carrega somente após aceite em produção.
+O escopo funcional foi autorizado por Marcos com "faca isso", em resposta à auditoria do ResultX. Arquitetura aprovada por @architect e classificação T2 confirmada por @devops, conforme comunicação do coordenador em 08/10/2026. IDs reais verificados: GA4 G-7LHE3BLF2Z, propriedade 558121580 e GTM-56DCXS3G. Consentimento estatístico separado do contato, Google carrega somente após aceite em produção.
 
 ## Resultado
 
@@ -30,13 +30,13 @@ As âncoras da home não são páginas adicionais. Não ampliar para newsletter 
 | `click_email` | Acionar link de e-mail | Um por clique |
 | `click_diagnostico` | Acionar CTA para o formulário | Um por clique; não conta como lead |
 
-Eventos customizados de clique são os nomes propostos na auditoria e autorizados neste escopo. Metadados devem ter lista permitida, como `form_id: diagnostico` e identificador estático da posição do link. Nome, empresa digitada, e-mail, telefone e desafio nunca entram no dataLayer/GA4. URLs são saneadas, preservando somente UTMs válidas sem e-mails/telefones. Enhanced measurement fica desligado para impedir duplicação e coleta automática fora do contrato. A política de privacidade será atualizada com descrição factual da medição e testada quanto à coerência com a configuração implantada.
+Eventos customizados de clique são os nomes propostos na auditoria e autorizados neste escopo. Metadados devem ter lista permitida, como `form_id: diagnostico` e identificador estático da posição do link. Nome, empresa digitada, e-mail, telefone e desafio nunca entram no dataLayer/GA4. URLs são saneadas, preservando somente UTMs válidas sem e-mails/telefones. Enhanced measurement fica desligado para impedir duplicação e coleta automática fora do contrato. A política de privacidade foi atualizada com descrição factual da medição e testada quanto à coerência com a configuração implantada.
 
 O fluxo de sucesso já existente da API/Brevo continua sendo a fonte da conversão. Não há requisito de medir evento no backend. Bloqueio de Analytics não pode quebrar o formulário ou a navegação.
 
-## Configuração e decisões pendentes
+## Configuração confirmada
 
-- Confirmar/criar propriedade e fluxo GA4 para ResultX, registrar propriedade, domínio e ID real. A conta acessada na auditoria não disponibilizou propriedade ResultX; isso não prova inexistência em outras contas.
+- Propriedade dedicada 558121580, fluxo 16070118656 e domínio resultx.app confirmados na conta; GTM versão 2 publicada. A indisponibilidade da propriedade na auditoria inicial era o estado daquele momento, superado na implementação.
 - Decisão @architect: GA4 e GTM exclusivos da ResultX, bootstrap nas duas entradas e allowlist de eventos. Não usar contêiner Emprega+ automaticamente.
 - Estratégia única de `page_view` e `form_start`, com enhanced measurement desligado; não combinar disparos manuais e automáticos duplicados.
 - IDs confirmados: **G-7LHE3BLF2Z / GTM-56DCXS3G**, ver docs/analytics/resultx-google-setup.md. Não inserir placeholders válidos ou números de outros produtos. PR #11 exige reconciliação com o formulário/entradas atuais.
@@ -62,3 +62,7 @@ Se faltar acesso/configuração Google, avançar código, testes, artefatos SEO 
 - Código base verificado: `index.html`, `privacidade.html`, `src/components/DiagnosisForm.tsx`, `src/content/site.ts`, `functions/api/contact.ts`, `package.json`, `.github/workflows/ci.yml`.
 - [Google: evento generate_lead](https://developers.google.com/analytics/devguides/collection/ga4/reference/events#generate_lead).
 - [Google: verificação de eventos GA4](https://developers.google.com/analytics/devguides/collection/ga4/event-parameters).
+
+## Estado da entrega em 08/10/2026
+
+PR #53 merged, SHA `8b610a5`, deployment Production `248c86d0-f69d-4269-94cd-ae840c43b787`. Entrega GA4 comprovada para ambas as páginas e seis eventos. Lead de teste separado dos indicadores comerciais. [Configuração, evidências e limitações](../analytics/resultx-google-setup.md). Home indexada; privacidade indexável com solicitação aceita; sitemap submetido com falha de fetch ainda aberta. Os critérios exigem inspeção e relato factual, sem promessa de indexação imediata. Parecer final exclusivamente @qa.
