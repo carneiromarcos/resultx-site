@@ -1,0 +1,34 @@
+schema: 1
+story: resultx-google-tracking-2026-10-08
+gate: CONCERNS
+status_reason: 'Código publicado e medições em produção comprovados; inspeções e submissão Search Console documentadas com estados reais. Leitura do sitemap e revisão CodeRabbit permanecem pendências não bloqueantes acompanhadas.'
+reviewer: Quinn
+reviewed_revision: 'commit:8b610a517e2fd8788c12686903f2799c5912fc43'
+updated: '2026-10-08T23:01:33Z'
+top_issues:
+  - id: TEST-SEO-001
+    severity: medium
+    finding: 'Search Console aceitou o sitemap, mas permanece Não foi possível buscar o sitemap, com 0 URLs descobertas; privacidade possui teste ao vivo positivo e pedido de indexação aceito, sem indexação comprovada.'
+    suggested_action: 'Reconsultar em 09/10/2026; se persistir, investigar eventos/regras Cloudflare com acesso apropriado, preservando as proteções até estabelecer a causa.'
+    owner: '@devops/coordenador'
+    due_date: '2026-10-09'
+  - id: MNT-REVIEW-001
+    severity: medium
+    finding: 'CodeRabbit signed out; revisão automatizada não executada. Não há aprovação nem ausência comprovada de findings CodeRabbit.'
+    suggested_action: 'Autenticar, revisar a versão publicada e registrar/tratar os achados conforme severidade até 15/10/2026.'
+    owner: '@devops/@qa'
+    due_date: '2026-10-15'
+waiver:
+  active: false
+evidence:
+  report: docs/qa/reports/2026-10-08-google-tracking-final.md
+  prepublication_report: docs/qa/reports/2026-10-08-google-tracking-prepublication.md
+  code_content_sha256: 01f13093100693d9c1b191869b31df4042ee42fdf0ad70bc9f41b187140c7c7a
+  reviewed_code_files: 21
+  prepublication_checks: 'lint/typecheck incluindo Functions/16 testes/build/diff check PASS; candidato idêntico ao merge'
+  github_checks: '5 SUCCESS na PR #53'
+  production_pages: 'GA4 home 2 views em 2 loads, privacidade 1 view; três tipos de clique 1 cada; form_start 1; generate_lead 1 como evento principal'
+  consent: 'JSON de revogação registra 2 scripts Google antes e [] após recusa/reload; recusa explícita também []'
+  search_console: 'Home indexada; privacidade indexável e solicitação aceita; sitemap submetido, fetch não concluído'
+  limitations: 'UA Googlebot não autentica crawler real; causa do fetch desconhecida; não houve consulta independente ao contato na interface Brevo'
+story_status: Done

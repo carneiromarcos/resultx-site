@@ -2,7 +2,9 @@
 
 ## Status
 
-In Progress — escopo autorizado por Marcos em 08/10/2026 ("faca isso", após a auditoria). Implementação e gates locais completos; publicação e comprovação externa em andamento. Classificação T2 confirmada por @devops; desenho técnico aprovado por @architect conforme comunicação do coordenador em 08/10/2026.
+**Done**
+
+Escopo autorizado por Marcos em 08/10/2026 ("faca isso", após a auditoria). Código publicado na PR #53, merge 8b610a5; comprovações externas salvas. Classificação T2 confirmada por @devops e arquitetura aprovada por @architect. Parecer final sob autoridade @qa.
 
 ## Executor Assignment
 
@@ -40,10 +42,10 @@ Escopo derivado da auditoria de 08/10: `/`, `/privacidade`, um formulário de di
 - [x] Instrumentar o ramo de sucesso real do diagnóstico preservando a proteção `sendingRef` (AC 4, 6).
 - [x] Atualizar política de privacidade e testar coerência com a configuração factual (AC 6).
 - [x] Criar robots e sitemap reais e validar saída do build/HTTP (AC 7).
-- [ ] Configurar evento principal e verificar eventos em Tag Assistant/GA4 (AC 2–6).
-- [ ] Verificar Search Console, sitemap e ambas as URLs; registrar limitações de acesso (AC 8).
-- [ ] Adicionar/executar gates e testes focados no funil, registrar evidências e parecer @qa (AC 9).
-- [ ] Atualizar checklist, lista real de arquivos e resultados antes de conclusão.
+- [x] Configurar evento principal e verificar eventos em Tag Assistant/GA4 (AC 2–6).
+- [x] Verificar Search Console, submeter sitemap e inspecionar ambas as URLs; registrar falha de leitura do sitemap (AC 8).
+- [x] Adicionar/executar gates e testes focados no funil, registrar evidências e parecer pré-publicação @qa (AC 9).
+- [x] Atualizar checklist, lista real de arquivos e resultados; fechamento do gate final por @qa.
 
 ## Dev Notes
 
@@ -84,11 +86,15 @@ Pronta para trabalho independente de código/SEO. Ativação e comprovação ext
 
 ## Dev Agent Record
 
-Implementação completa: consentimento estatístico específico, bootstrap compartilhado entre home e privacidade, eventos allowlist, lead apenas no sucesso confirmado, URLs saneadas e arquivos SEO reais. Brevo/Functions intactos. @dev e @qa executaram lint, typecheck, 16 testes, build e diff --check com PASS. Propriedade GA4 558121580/fluxo16070118656/G-7LHE3BLF2Z; GTM-56DCXS3G. Evento generate_lead cadastrado como principal, sem valor padrão. Config GTM importada e reconhecida na UI, publicação pendente.
+Implementação publicada: consentimento estatístico específico, bootstrap comum nas duas páginas, seis eventos permitidos, lead apenas após sucesso confirmado, URLs saneadas e arquivos SEO reais. Functions/Brevo intactos. @dev e @qa executaram lint, typecheck, 16 testes, build e diff --check com PASS; CI da PR e do main passou.
 
-PR #11 permanece aberta; seus IDs antigos não foram incorporados. Search Console agora disponível: home indexada, privacidade desconhecida pelo Google; sitemap será submetido após deploy.
+PR #53 merged em `8b610a517e2fd8788c12686903f2799c5912fc43`; Cloudflare Production deployment `248c86d0-f69d-4269-94cd-ae840c43b787`. GTM versão 2 publicada em 08/10 às 15:42 (Fortaleza), `GTM-56DCXS3G`; GA4 propriedade `558121580`, fluxo `16070118656`, `G-7LHE3BLF2Z`. `generate_lead` é evento principal por evento, sem valor padrão.
 
-CodeRabbit signed out: revisão não executada. Dívida MNT-REVIEW-001, responsável @devops/@qa, prazo 15/10/2026: autenticar e executar revisão; gate independente pré-publicação concluído, ver parecer abaixo.
+GA4 Tempo real recebeu ambas as páginas, os três tipos de clique, um `form_start` e um `generate_lead`/evento principal. O único envio de teste usou dados fictícios marcados DESCONSIDERAR; UI confirmou "Pedido recebido.". Essa prova confirma resposta positiva da API e entrega GA4, sem alegar inspeção do contato na interface Brevo. Não incluir o teste em indicadores comerciais. Tag Assistant mostrou somente os parâmetros permitidos, sem valores do formulário. Após revogação explícita e reload, inspeção readonly do DOM encontrou zero scripts Google.
+
+Search Console `sc-domain:resultx.app`: home indexada (captura salva na retomada); privacidade desconhecida no índice, mas teste publicado confirmou que é indexável e solicitação de indexação foi aceita. Sitemap submetido; ainda "Não foi possível buscar o sitemap", zero URLs descobertas. HTTP 200/XML válido com duas URLs não comprova leitura pelo Google. Causa não estabelecida; proteções Cloudflare preservadas. Pendência TEST-SEO-001: reconsultar em 09/10 e investigar logs Cloudflare se persistir. PR #11 permanece aberta, IDs antigos não incorporados.
+
+Evidências: `/Users/marcos/meus-projetos/project-management/research/evidence/resultx-google-tracking-2026-10-08/`; configuração e mapa das provas em [Google setup](../analytics/resultx-google-setup.md). CodeRabbit signed out: revisão não executada. Dívida MNT-REVIEW-001, @devops/@qa, prazo 15/10/2026. Parecer final e transição da story exclusivamente @qa.
 
 ### File List
 
@@ -99,6 +105,9 @@ Lista real da entrega:
 - `docs/analytics/resultx-gtm-container.json`
 - `docs/plans/2026-10-08-google-tracking-design.md`
 - `docs/qa/reports/2026-10-08-google-tracking-prepublication.md`
+- `docs/qa/reports/2026-10-08-google-tracking-final.md`
+- `docs/qa/gates/resultx-google-tracking-2026-10-08.yml`
+- `docs/review-debt.md`
 - `docs/stories/resultx-google-tracking-2026-10-08.md`
 - `package-lock.json`
 - `package.json`
@@ -122,13 +131,21 @@ Lista real da entrega:
 
 ## QA Results
 
-Parecer independente pré-publicação @qa: **CONCERNS, apto publicar para validação externa**, sem defeito bloqueante. [Relatório](../qa/reports/2026-10-08-google-tracking-prepublication.md). Gate final aguarda provas de produção/Google/SC.
+Parecer independente pré-publicação @qa: **CONCERNS, apto publicar para validação externa**, sem defeito bloqueante. [Relatório](../qa/reports/2026-10-08-google-tracking-prepublication.md).
+
+Parecer independente final Quinn (@qa), 08/10/2026: **CONCERNS**, com transição **InReview → Done** conforme `qa-gate.md`. [Relatório final](../qa/reports/2026-10-08-google-tracking-final.md). Integridade dos 21 arquivos revisados confirmada no merge `8b610a517e2fd8788c12686903f2799c5912fc43`; gates locais anteriores PASS e cinco checks da PR SUCCESS. Provas salvas comprovam duas páginas no GA4, início, lead como evento principal, três cliques, payload permitido, recusa/revogação sem scripts Google após reload e arquivos SEO corretos. Home indexada; privacidade indexável com solicitação aceita, sem indexação comprovada.
+
+Pendências não bloqueantes: **TEST-SEO-001**, @devops/coordenador, reconsulta em **09/10/2026** (sitemap submetido, porém ainda não buscado pelo Search Console; causa desconhecida); **MNT-REVIEW-001**, @devops/@qa, prazo **15/10/2026** (CodeRabbit signed out, revisão não executada). Nenhuma aprovação CodeRabbit ou indexação de todas as páginas foi alegada.
+
+Gate: CONCERNS → docs/qa/gates/resultx-google-tracking-2026-10-08.yml
 
 ## Change Log
 
 | Data | Versão | Descrição | Autor |
 | --- | --- | --- | --- |
-| 2026-10-08 | 1.0 | Escopo autorizado, critérios, dependências e preparação | @sm River |
+| 2026-10-08 | 1.0.0 | Escopo autorizado, critérios, dependências e preparação | @sm River |
+| 2026-10-08 | 1.1.0 | Implementação, publicação PR #53/8b610a5 e provas externas; leitura do sitemap pendente | Coordenador |
+| 2026-10-08 | 1.1.1 | QA Gate CONCERNS — Status: InReview → Done; pendências TEST-SEO-001 e MNT-REVIEW-001 registradas | @qa |
 
 ## Sources
 
