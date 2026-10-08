@@ -10,8 +10,8 @@ export const NAV_LINKS = [
 
 export const CONTACT = {
   email: 'marcos@empregamais.me',
-  whatsappHref: 'https://wa.me/5511976947557',
-  whatsappLabel: '(11) 97694-7557',
+  whatsappHref: 'https://wa.me/5511967947557',
+  whatsappLabel: '(11) 96794-7557',
 } as const
 
 /* Página estática privacidade.html, servida em /privacidade pelo Cloudflare Pages. */
