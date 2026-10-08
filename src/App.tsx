@@ -10,11 +10,14 @@ import Faq from './components/Faq'
 import Diagnosis from './components/Diagnosis'
 import Footer from './components/Footer'
 import './styles/sections.css'
+import './styles/motion.css'
+import { useReveal } from './hooks/useReveal'
 
 /* Estrutura da proposta de 07/10, em 9 blocos:
    1 Promessa · 2 Problemas · 3 Aplicações · 4 Serviços · 5 Demonstrações ·
    6 Método · 7 ResultX · 8 Perguntas · 9 Diagnóstico + formulário */
 export default function App() {
+  useReveal()
   return (
     <>
       <Header />

@@ -1,4 +1,5 @@
 import Icon from './Icon'
+import { revealIndex } from '../hooks/useReveal'
 
 /* Bloco 8 — Perguntas frequentes. Respostas tiradas só da proposta de 07/10:
    sem preço, prazo ou número que a proposta não traga. */
@@ -29,8 +30,8 @@ const QUESTIONS = [
     a: 'Cada projeto tem indicadores definidos desde o início. Na etapa de acompanhamento, comparamos os indicadores e definimos os próximos ajustes.',
   },
   {
-    q: 'Emprega+, Electia e Xscore são clientes da ResultX?',
-    a: 'Não. São produtos próprios do grupo ResultX. Aparecem no site como demonstração do tipo de solução que desenvolvemos.',
+    q: 'Electia e Xscore são clientes da ResultX?',
+    a: 'Não. São produtos do ResultX Labs que também atendem a consultoria ResultX. Aparecem no site como demonstração do tipo de solução que desenvolvemos.',
   },
 ]
 
@@ -38,11 +39,11 @@ export default function Faq() {
   return (
     <section className="section" id="perguntas" aria-labelledby="perguntas-title">
       <div className="wrap faq-grid">
-        <div className="section-head">
+        <div className="section-head" data-reveal>
           <p className="eyebrow">Perguntas frequentes</p>
           <h2 id="perguntas-title">Antes de começar.</h2>
         </div>
-        <div className="faq-list">
+        <div className="faq-list" data-reveal style={revealIndex(1)}>
           {QUESTIONS.map((item) => (
             <details key={item.q} className="faq-item">
               <summary>

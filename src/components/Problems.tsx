@@ -1,4 +1,5 @@
 import Icon, { type IconName } from './Icon'
+import { revealIndex } from '../hooks/useReveal'
 
 /* Bloco 2 — Problemas reconhecíveis na operação. Texto da proposta de 07/10. */
 
@@ -13,19 +14,19 @@ export default function Problems() {
   return (
     <section className="section" id="problemas" aria-labelledby="problemas-title">
       <div className="wrap problems-grid">
-        <div className="section-head">
+        <div className="section-head" data-reveal>
           <p className="eyebrow">Problemas na operação</p>
           <h2 id="problemas-title">Onde sua operação está perdendo eficiência?</h2>
         </div>
         <ul className="pain-list">
-          {PAINS.map((pain) => (
-            <li key={pain.text} className="pain-item">
+          {PAINS.map((pain, index) => (
+            <li key={pain.text} className="pain-item" data-reveal style={revealIndex(index)}>
               <span className="icon-chip" aria-hidden="true"><Icon name={pain.icon} /></span>
               {pain.text}
             </li>
           ))}
         </ul>
-        <div className="problems-copy">
+        <div className="problems-copy" data-reveal>
           <p className="problems-lead">Esses gargalos consomem tempo da equipe e dificultam o crescimento.</p>
           <p>
             A ResultX analisa seus processos para identificar onde automação, inteligência artificial e
