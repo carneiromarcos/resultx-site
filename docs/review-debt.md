@@ -28,6 +28,9 @@
 
 <!-- Adicionar entradas abaixo desta linha, mais recentes no topo. -->
 
+- [open] 2026-10-08 — MNT-REVIEW-001: revisão CodeRabbit da instrumentação Google (T2) — dono: @devops / @qa — PR: feat/google-tracking-20261008 — ref: docs/qa/reports/2026-10-08-google-tracking-prepublication.md — prazo: 2026-10-15
+  Detalhe: CodeRabbit signed out; revisão automatizada não executada. Parecer independente @qa CONCERNS, apto à publicação para validação externa, sem defeitos bloqueantes. Autenticar e revisar posteriormente; não declarar aprovação CodeRabbit. Evidências de produção continuam pendentes na story.
+
 - [open] 2026-04-28 — Bootstrap Squad Flow v2 — dono: @carneiromarcos — PR: (este) — ref: chore/squad-flow-v2-bootstrap
   Detalhe: Estrutura inicial criada. Próximas iterações vão popular este arquivo conforme PRs forem mergeadas com débitos conhecidos.
 

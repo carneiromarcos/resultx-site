@@ -26,7 +26,7 @@ export default function Footer() {
             {NAV_LINKS.map((link) => (
               <li key={link.href}><a href={link.href}>{link.label}</a></li>
             ))}
-            <li><a href={CTA_DIAGNOSIS.href}>Diagnóstico gratuito</a></li>
+            <li><a href={CTA_DIAGNOSIS.href} data-analytics-event="click_diagnostico" data-analytics-placement="footer">Diagnóstico gratuito</a></li>
           </ul>
         </nav>
 
@@ -45,10 +45,10 @@ export default function Footer() {
           <h2 id="ft-contato">Contato</h2>
           <ul>
             <li>
-              <a href={`mailto:${CONTACT.email}`}><Icon name="mail" size="sm" />{CONTACT.email}</a>
+              <a href={`mailto:${CONTACT.email}`} data-analytics-event="click_email" data-analytics-placement="footer"><Icon name="mail" size="sm" />{CONTACT.email}</a>
             </li>
             <li>
-              <a href={CONTACT.whatsappHref} target="_blank" rel="noopener">
+              <a href={CONTACT.whatsappHref} data-analytics-event="click_whatsapp" data-analytics-placement="footer" target="_blank" rel="noopener">
                 <Icon name="message-circle" size="sm" />{CONTACT.whatsappLabel}
               </a>
             </li>

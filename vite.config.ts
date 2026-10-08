@@ -9,7 +9,7 @@ export default defineConfig({
   plugins: [react()],
   build: {
     rollupOptions: {
-      // Duas páginas. privacidade.html é estática (sem JS) e o Cloudflare
+      // Duas páginas. privacidade.html tem conteúdo estático e bootstrap de consentimento e o Cloudflare
       // Pages a serve em /privacidade.
       input: {
         main: page('./index.html'),
