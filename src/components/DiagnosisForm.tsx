@@ -1,6 +1,7 @@
 import { useRef, useState, type ChangeEvent, type FormEvent } from 'react'
 import Icon from './Icon'
 import { PRIVACY_HREF } from '../content/site'
+import { trackAnalytics } from '../lib/analytics'
 import {
   DIAGNOSIS_LIMITS,
   EMPTY_DIAGNOSIS,
@@ -67,9 +68,14 @@ export default function DiagnosisForm() {
   const [status, setStatus] = useState<Status>('idle')
   const successRef = useRef<HTMLDivElement>(null)
   const sendingRef = useRef(false)
+  const startedRef = useRef(false)
 
   function update(field: DiagnosisField) {
     return (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      if (!startedRef.current) {
+        startedRef.current = true
+        trackAnalytics('form_start')
+      }
       const target = event.target
       const next = target instanceof HTMLInputElement && target.type === 'checkbox' ? target.checked : target.value
       setValues((prev) => ({ ...prev, [field]: next }))
@@ -96,6 +102,7 @@ export default function DiagnosisForm() {
       const ok = await sendDiagnosis(values)
       setStatus(ok ? 'success' : 'error')
       if (ok) {
+        trackAnalytics('generate_lead')
         setValues(EMPTY_DIAGNOSIS)
         requestAnimationFrame(() => successRef.current?.focus())
       }
@@ -112,7 +119,7 @@ export default function DiagnosisForm() {
         <span className="success-mark" aria-hidden="true"><Icon name="check" size="lg" /></span>
         <h3>Pedido recebido.</h3>
         <p>Obrigado. Vamos entrar em contato para combinar o diagnóstico.</p>
-        <button type="button" className="btn btn-secondary" onClick={() => setStatus('idle')}>
+        <button type="button" className="btn btn-secondary" onClick={() => { startedRef.current = false; setStatus('idle') }}>
           Enviar outro pedido
         </button>
       </div>

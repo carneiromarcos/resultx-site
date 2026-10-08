@@ -106,7 +106,7 @@ export default function Header() {
             ))}
           </nav>
           <div className="header-float-actions">
-            <a className="btn btn-primary btn-sm" href={CTA_DIAGNOSIS.href}>
+            <a className="btn btn-primary btn-sm" href={CTA_DIAGNOSIS.href} data-analytics-event="click_diagnostico" data-analytics-placement="header">
               Solicitar diagnóstico
             </a>
             <button
@@ -148,7 +148,7 @@ export default function Header() {
             ))}
           </nav>
           <div className="menu-drawer-actions">
-            <a className="btn btn-primary" href={CTA_DIAGNOSIS.href} onClick={() => setOpen(false)}>
+            <a className="btn btn-primary" href={CTA_DIAGNOSIS.href} data-analytics-event="click_diagnostico" data-analytics-placement="menu" onClick={() => setOpen(false)}>
               {CTA_DIAGNOSIS.label}
             </a>
           </div>

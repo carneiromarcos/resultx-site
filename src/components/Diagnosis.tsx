@@ -22,13 +22,13 @@ export default function Diagnosis() {
           <p>Você recebe uma indicação das oportunidades prioritárias e do próximo passo recomendado.</p>
           <ul className="diagnosis-contacts" aria-label="Outros canais">
             <li>
-              <a href={CONTACT.whatsappHref} target="_blank" rel="noopener">
+              <a href={CONTACT.whatsappHref} data-analytics-event="click_whatsapp" data-analytics-placement="diagnostico" target="_blank" rel="noopener">
                 <Icon name="message-circle" size="sm" />
                 WhatsApp {CONTACT.whatsappLabel}
               </a>
             </li>
             <li>
-              <a href={`mailto:${CONTACT.email}`}>
+              <a href={`mailto:${CONTACT.email}`} data-analytics-event="click_email" data-analytics-placement="diagnostico">
                 <Icon name="mail" size="sm" />
                 {CONTACT.email}
               </a>

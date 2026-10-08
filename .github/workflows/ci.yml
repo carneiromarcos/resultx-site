@@ -102,3 +102,16 @@ jobs:
       # tsconfig.functions.json esta fora das references do tsconfig raiz.
       - name: Typecheck das Cloudflare Pages Functions
         run: npx tsc -p tsconfig.functions.json --noEmit
+
+  tracking-tests:
+    name: Tracking and form tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test

@@ -25,7 +25,7 @@ export default function Hero() {
             mais informação.
           </p>
           <div className="hero-actions">
-            <a className="btn btn-primary btn-lg btn-sheen" href={CTA_DIAGNOSIS.href}>
+            <a className="btn btn-primary btn-lg btn-sheen" href={CTA_DIAGNOSIS.href} data-analytics-event="click_diagnostico" data-analytics-placement="hero">
               Quero identificar oportunidades na minha empresa
               <Icon name="arrow-right" size="sm" />
             </a>
