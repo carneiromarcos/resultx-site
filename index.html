@@ -25,6 +25,19 @@
     <meta name="twitter:description" content="Sua empresa pode produzir mais com menos trabalho manual. Comece com um diagnóstico gratuito dos seus desafios e das oportunidades de melhoria." />
     <meta name="twitter:image" content="https://resultx.app/images/og-resultx.png" />
     <meta name="twitter:image:alt" content="ResultX — Implementação de IA e melhoria de processos" />
+    <!-- Revelação ao rolar (src/hooks/useReveal.ts): liga .js-reveal antes da
+         primeira pintura, nas mesmas condições do hook, para o conteúdo não
+         piscar visível e depois sumir. O conteúdo é renderizado pelo mesmo
+         bundle que observa a rolagem, então não há caso de texto escondido. -->
+    <script>
+      (function (root) {
+        try {
+          if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            root.classList.add("js-reveal");
+          }
+        } catch (e) {}
+      })(document.documentElement);
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />

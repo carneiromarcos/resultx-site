@@ -1,0 +1,351 @@
+/* ==========================================================================
+   Movimento da página — "expressivo, mas elegante".
+   Regras:
+   - só transform/translate/scale, opacity e box-shadow em hover;
+   - [data-reveal] só some quando <html> tem .js-reveal (posto por
+     hooks/useReveal.ts). Sem JS ou com movimento reduzido, tudo visível;
+   - tudo que se move de forma contínua mora em
+     @media (prefers-reduced-motion: no-preference).
+   Cores só por token do DS / ponte ResultX. Sem orb (reservada a agentes IA).
+   ========================================================================== */
+
+:root {
+  --reveal-distance: 28px;
+  --reveal-duration: 800ms;
+  --reveal-step: 90ms;
+  --reveal-ease: var(--spring-smooth);
+  --lift-duration: 280ms;
+  --lift-distance: -6px;
+  --flow-duration: 1100ms;
+  --flow-step: 260ms;
+  --hero-drift-duration: 24s;
+  --hero-grid-cell: 64px;
+  --hero-grid-duration: 18s;
+  --sweep-duration: 7s;
+  --glow-gold: color-mix(in srgb, var(--rx-gold) 38%, transparent);
+  --glow-purple: color-mix(in srgb, var(--rx-purple) 30%, transparent);
+}
+
+/* ── Revelação ao rolar ──────────────────────────────────────────────────── */
+.js-reveal [data-reveal] {
+  opacity: 0;
+  translate: 0 var(--reveal-distance);
+}
+.js-reveal [data-reveal].is-revealed {
+  --reveal-delay: calc(var(--reveal-i, 0) * var(--reveal-step));
+  opacity: 1;
+  translate: none;
+  /* O atraso vale só para a entrada; hover (transform, sombra, borda) responde na hora. */
+  transition:
+    opacity var(--reveal-duration) var(--reveal-ease) var(--reveal-delay),
+    translate var(--reveal-duration) var(--reveal-ease) var(--reveal-delay),
+    transform var(--lift-duration) var(--spring-smooth),
+    box-shadow var(--lift-duration) var(--spring-smooth),
+    border-color var(--lift-duration) var(--spring-smooth);
+}
+
+/* ── Cards com profundidade ──────────────────────────────────────────────── */
+.card-lift {
+  position: relative;
+  transition:
+    transform var(--lift-duration) var(--spring-smooth),
+    box-shadow var(--lift-duration) var(--spring-smooth),
+    border-color var(--lift-duration) var(--spring-smooth);
+}
+/* Fio da ponte no topo, que se acende no hover/foco. */
+.card-lift::after {
+  content: '';
+  position: absolute;
+  inset: -1px var(--radius-lg) auto;
+  block-size: 2px;
+  border-radius: var(--radius-full);
+  background: var(--rx-gradient-bridge);
+  opacity: 0;
+  transform: scaleX(0.4);
+  transform-origin: left;
+  transition: opacity var(--lift-duration) var(--spring-smooth), transform 600ms var(--spring-smooth);
+  pointer-events: none;
+}
+.card-lift:hover,
+.card-lift:focus-within {
+  transform: translateY(var(--lift-distance));
+  border-color: var(--border-accent);
+  box-shadow:
+    var(--elevation-3),
+    0 22px 48px -28px var(--glow-gold),
+    0 0 0 1px var(--border-accent);
+}
+.card-lift:hover::after,
+.card-lift:focus-within::after { opacity: 1; transform: none; }
+.card-lift .icon-chip { transition: transform var(--lift-duration) var(--spring-bounce), background-color var(--lift-duration); }
+.card-lift:hover .icon-chip { transform: translateY(-2px) scale(1.06); }
+.card-lift:active { transform: translateY(calc(var(--lift-distance) / 2)); }
+.product-link:focus-visible { border-radius: var(--radius-sm); }
+
+/* Problemas: hover discreto, sem levantar (não são clicáveis). */
+.pain-item { transition: border-color var(--lift-duration) var(--spring-smooth), background-color var(--lift-duration); }
+.pain-item:hover { border-color: var(--border-accent); background: var(--bg-surface-2); }
+
+/* ── 1. Hero: atmosfera em movimento ─────────────────────────────────────── */
+/* Grade fina que deriva devagar, apagada nas bordas. */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--hero-grid-cell)) 0 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--text-primary) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--text-primary) 5%, transparent) 1px, transparent 1px);
+  background-size: var(--hero-grid-cell) var(--hero-grid-cell);
+  -webkit-mask-image: radial-gradient(70% 60% at 70% 35%, #000 0%, transparent 75%);
+  mask-image: radial-gradient(70% 60% at 70% 35%, #000 0%, transparent 75%);
+  pointer-events: none;
+}
+/* Reflexo de luz que atravessa o painel do fluxo. */
+.hero-flow { overflow: hidden; }
+.hero-flow::after { inset: auto var(--space-5) 0; }
+.hero-flow::before {
+  content: '';
+  position: absolute;
+  inset: -50% auto -50% 0;
+  z-index: 1;
+  inline-size: 40%;
+  background: linear-gradient(100deg, transparent 0%, color-mix(in srgb, var(--rx-gold-light) 10%, transparent) 45%, color-mix(in srgb, var(--rx-purple-light) 10%, transparent) 55%, transparent 100%);
+  transform: translateX(-120%) rotate(8deg);
+  opacity: 0;
+  pointer-events: none;
+}
+.hero-flow-step { position: relative; z-index: 2; transition: border-color var(--lift-duration), background-color var(--lift-duration); }
+.hero-flow-step:hover { border-color: var(--border-accent); background: var(--bg-surface-2); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero::before { animation: hero-drift var(--hero-drift-duration) ease-in-out infinite alternate; will-change: transform; }
+  .hero::after { animation: hero-grid var(--hero-grid-duration) linear infinite; }
+  .hero-flow::before { animation: hero-sweep var(--sweep-duration) var(--ease-sheen) 1.2s infinite; }
+}
+@keyframes hero-drift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(-4%, 3%, 0) scale(1.08); }
+  100% { transform: translate3d(3%, -2%, 0) scale(1.04); }
+}
+@keyframes hero-grid {
+  to { transform: translate3d(0, var(--hero-grid-cell), 0); }
+}
+@keyframes hero-sweep {
+  0%   { transform: translateX(-120%) rotate(8deg); opacity: 0; }
+  8%   { opacity: 1; }
+  30%  { transform: translateX(320%) rotate(8deg); opacity: 0; }
+  100% { transform: translateX(320%) rotate(8deg); opacity: 0; }
+}
+
+/* ── 6. Método: fluxo que se desenha ─────────────────────────────────────── */
+.method-step::before {
+  /* nó de cada etapa (substitui o trecho fixo de 48 px) */
+  inset: -5px auto auto -1px;
+  inline-size: 9px;
+  block-size: 9px;
+  border-radius: var(--radius-full);
+  background: var(--rx-gold);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--rx-gold) 18%, transparent), 0 0 16px var(--glow-gold);
+  z-index: 1;
+}
+.method-step::after {
+  content: '';
+  position: absolute;
+  inset: -1px 0 auto;
+  block-size: 2px;
+  background: var(--rx-gradient-bridge);
+  transform-origin: left;
+  pointer-events: none;
+}
+.js-reveal .method-step::before { transform: scale(0); }
+.js-reveal .method-step::after { transform: scaleX(0); }
+.js-reveal .method-step.is-revealed::before {
+  transform: none;
+  transition: transform 500ms var(--spring-bounce) calc(var(--reveal-i, 0) * var(--flow-step));
+}
+.js-reveal .method-step.is-revealed::after {
+  transform: none;
+  transition: transform var(--flow-duration) var(--ease-sheen) calc(var(--reveal-i, 0) * var(--flow-step) + 150ms);
+}
+.method-deliverable { transition: border-color var(--lift-duration), transform var(--lift-duration) var(--spring-smooth); }
+.method-step:hover .method-deliverable { border-color: var(--border-accent); transform: translateY(-3px); }
+
+/* ── 5. Demonstrações: produtos e telas ──────────────────────────────────── */
+.product-list { display: grid; gap: var(--space-6); }
+.product-copy { display: grid; align-content: start; gap: var(--space-3); }
+.product-note { color: var(--text-muted); font-size: var(--text-sm); }
+.product-feature {
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.4fr);
+  gap: clamp(var(--space-8), 4vw, var(--space-12));
+  align-items: center;
+  padding: clamp(var(--space-6), 3.5vw, var(--space-10));
+}
+/* O card grande não levanta inteiro: quem ganha profundidade são as telas. */
+.product-feature.card-lift:hover,
+.product-feature.card-lift:focus-within { transform: none; }
+
+.screen-stack {
+  position: relative;
+  display: grid;
+  padding-block-start: var(--space-10);
+  padding-inline-end: var(--space-10);
+}
+.screen-stack > * { grid-area: 1 / 1; align-self: start; }
+.screen-back {
+  translate: var(--space-10) calc(-1 * var(--space-10));
+  scale: 0.92;
+  transform-origin: top right;
+  opacity: 0.55;
+  filter: saturate(0.8);
+}
+.screen-front { position: relative; z-index: 1; }
+
+.screen-frame {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  background: var(--bg-surface-2);
+  box-shadow: var(--elevation-4), 0 30px 80px -40px var(--glow-purple);
+}
+.screen-frame-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-surface-1);
+}
+.screen-frame-dots { display: inline-flex; gap: 6px; }
+.screen-frame-dots i { inline-size: 9px; block-size: 9px; border-radius: var(--radius-full); background: var(--border-strong); }
+.screen-frame-address {
+  flex: 1;
+  overflow: hidden;
+  padding: 2px var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--bg-base);
+  color: var(--text-muted);
+  font: var(--font-medium) 11px / 1.6 var(--font-mono);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.screen-frame-img { inline-size: 100%; block-size: auto; }
+
+/* Hover usa a propriedade translate: o transform fica livre para a
+   inclinação ligada à rolagem (.screen-tilt), e os dois se somam. */
+.product-feature .screen-front { transition: translate 600ms var(--spring-smooth), box-shadow 600ms var(--spring-smooth); }
+.product-feature:hover .screen-front { translate: 0 -6px; }
+
+/* Parallax/inclinação ligada à rolagem, sem JS. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .screen-tilt {
+      animation: screen-tilt linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 55%;
+    }
+    .screen-back.screen-tilt { animation-name: screen-tilt-back; }
+  }
+}
+@keyframes screen-tilt {
+  from { transform: perspective(1800px) rotateX(9deg) rotateY(-6deg) translateY(36px); }
+  to   { transform: perspective(1800px) rotateX(0) rotateY(0) translateY(0); }
+}
+@keyframes screen-tilt-back {
+  from { transform: perspective(1800px) rotateX(9deg) rotateY(-6deg) translateY(72px); }
+  to   { transform: perspective(1800px) rotateX(0) rotateY(0) translateY(0); }
+}
+
+/* Card espelhado (Xscore): telas à esquerda, para o par Electia/Xscore
+   formar um zigue-zague. Só em duas colunas. */
+@media (min-width: 1024px) {
+  .product-feature-mirror { grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.85fr); }
+  .product-feature-mirror .product-copy { order: 2; }
+  .product-feature-mirror .screen-stack { padding-inline: var(--space-10) 0; }
+  .product-feature-mirror .screen-back {
+    translate: calc(-1 * var(--space-10)) calc(-1 * var(--space-10));
+    transform-origin: top left;
+  }
+}
+
+/* ── Slots de ambiência (content/media.ts) ───────────────────────────────── */
+.has-ambience { position: relative; isolation: isolate; }
+.ambience {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  inline-size: 100%;
+  block-size: 100%;
+  max-inline-size: none;
+  object-fit: cover;
+  opacity: 0.4;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+  pointer-events: none;
+}
+/* Abertura: só a metade direita da arte (ver content/media.ts). A borda
+   esquerda se funde no grafite por máscara, então não há linha de emenda;
+   a base também some, para a seção seguinte começar limpa. */
+.ambience-hero {
+  inset: 0 0 0 auto;
+  inline-size: min(52%, 920px);
+  object-position: left center;
+  opacity: 0.9;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, transparent 12%, #000 62%),
+    linear-gradient(to bottom, transparent 0%, #000 14%, #000 68%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, transparent 12%, #000 62%),
+    linear-gradient(to bottom, transparent 0%, #000 14%, #000 68%, transparent 100%);
+  mask-composite: intersect;
+}
+/* Coluna única (< 1024 px): a arte desce para trás do painel de vidro do
+   fluxo, abaixo do texto, e fica mais apagada. Assim nunca disputa com o
+   título nem baixa o contraste da copy. */
+@media (max-width: 1023.98px) {
+  .ambience-hero {
+    inset: auto 0 0 0;
+    inline-size: 100%;
+    block-size: 52%;
+    object-position: center 35%;
+    opacity: 0.5;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 22%, #000 50%, #000 72%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, transparent 22%, #000 50%, #000 72%, transparent 100%);
+  }
+}
+
+/* ── Responsivo ──────────────────────────────────────────────────────────── */
+@media (max-width: 1023.98px) {
+  .product-feature { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 639.98px) {
+  .screen-stack { padding: 0; }
+  .screen-back { display: none; }
+  .product-feature { padding: var(--space-6); }
+}
+
+/* ── Movimento reduzido: nada se desloca ─────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .card:hover,
+  .card-lift:hover,
+  .card-lift:focus-within,
+  .card-lift:active,
+  .card-lift:hover .icon-chip,
+  .method-step:hover .method-deliverable { transform: none; }
+  .product-feature:hover .screen-front { translate: none; }
+  .card-lift::after { transform: none; transition: opacity var(--lift-duration); }
+  .card-lift,
+  .card-lift .icon-chip,
+  .method-deliverable,
+  .product-feature .screen-front { transition-property: box-shadow, border-color, background-color, opacity; }
+}
+
+/* ── Impressão: tudo visível, sem estados intermediários ─────────────────── */
+@media print {
+  .js-reveal [data-reveal] { opacity: 1 !important; translate: none !important; }
+  .js-reveal .method-step::before,
+  .js-reveal .method-step::after { transform: none !important; }
+  .screen-tilt { animation: none !important; transform: none !important; }
+}

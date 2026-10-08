@@ -1,5 +1,7 @@
 import Icon, { type IconName } from './Icon'
+import Ambience from './Ambience'
 import { CTA_DIAGNOSIS } from '../content/site'
+import { revealIndex } from '../hooks/useReveal'
 
 /* Bloco 1 — Promessa e chamada principal. Texto da proposta de 07/10. */
 
@@ -12,6 +14,7 @@ const FLOW: { icon: IconName; title: string; text: string }[] = [
 export default function Hero() {
   return (
     <section className="hero" id="inicio" aria-labelledby="hero-title">
+      <Ambience slot="hero" priority />
       <div className="wrap hero-grid">
         <div className="hero-copy">
           <p className="eyebrow">Implementação de IA e melhoria de processos</p>
@@ -36,8 +39,8 @@ export default function Hero() {
         </div>
 
         <ol className="hero-flow" aria-label="Como a ResultX trabalha">
-          {FLOW.map((step) => (
-            <li key={step.title} className="hero-flow-step">
+          {FLOW.map((step, index) => (
+            <li key={step.title} className="hero-flow-step" data-reveal style={revealIndex(index + 1)}>
               <span className="icon-chip" aria-hidden="true"><Icon name={step.icon} /></span>
               <span>
                 <strong>{step.title}</strong>

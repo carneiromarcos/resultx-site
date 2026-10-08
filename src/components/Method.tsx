@@ -1,3 +1,6 @@
+import Ambience from './Ambience'
+import { revealIndex } from '../hooks/useReveal'
+
 /* Bloco 6 — Método de trabalho: etapas e entregáveis da proposta de 07/10. */
 
 const STEPS = [
@@ -9,15 +12,16 @@ const STEPS = [
 
 export default function Method() {
   return (
-    <section className="section" id="metodo" aria-labelledby="metodo-title">
+    <section className="section has-ambience" id="metodo" aria-labelledby="metodo-title">
+      <Ambience slot="metodo" />
       <div className="wrap">
-        <div className="section-head">
+        <div className="section-head" data-reveal>
           <p className="eyebrow">Método de trabalho</p>
           <h2 id="metodo-title">Cada etapa termina em um entregável.</h2>
         </div>
         <ol className="method-list">
           {STEPS.map((step, index) => (
-            <li key={step.title} className="method-step">
+            <li key={step.title} className="method-step" data-reveal style={revealIndex(index)}>
               <span className="method-num" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
               <h3>{step.title}</h3>
               <p className="method-deliverable">

@@ -5,8 +5,9 @@ import { CONTACT, CTA_DIAGNOSIS, NAV_LINKS, PRIVACY_HREF } from '../content/site
 /* Rodapé no padrão do hub Emprega+ (DS, 07/10): marca + resumo, colunas com
    rótulo em mono, base com direitos. Só links que levam a algum lugar. */
 
+/* Só produtos do ResultX Labs com site público. Xscore ainda não tem,
+   então aparece só em Demonstrações. */
 const PRODUCTS = [
-  { label: 'Emprega+', href: 'https://www.empregamais.me/' },
   { label: 'Electia', href: 'https://electia.empregamais.me/' },
 ]
 
@@ -30,7 +31,7 @@ export default function Footer() {
         </nav>
 
         <nav className="footer-col" aria-labelledby="ft-produtos">
-          <h2 id="ft-produtos">Produtos do grupo</h2>
+          <h2 id="ft-produtos">ResultX Labs</h2>
           <ul>
             {PRODUCTS.map((product) => (
               <li key={product.href}>

@@ -1,3 +1,4 @@
+import Ambience from './Ambience'
 import DiagnosisForm from './DiagnosisForm'
 import Icon from './Icon'
 import { CONTACT } from '../content/site'
@@ -9,8 +10,9 @@ import { CONTACT } from '../content/site'
 export default function Diagnosis() {
   return (
     <section className="section diagnosis" id="diagnostico" aria-labelledby="diagnostico-title">
+      <Ambience slot="diagnostico" />
       <div className="wrap diagnosis-grid">
-        <div className="diagnosis-copy">
+        <div className="diagnosis-copy" data-reveal>
           <p className="eyebrow">Diagnóstico gratuito</p>
           <h2 id="diagnostico-title">Descubra por onde começar com IA na sua empresa.</h2>
           <p>

@@ -27,3 +27,43 @@
 @media (max-width: 1023.98px) {
   :root { --page-header-logo: 20px; }
 }
+
+/* ── Fontes de reserva com métricas casadas (CLS) ──────────────────────────
+   Sora e Inter vêm do Google Fonts com display=swap. Até chegarem, o texto
+   usa Arial — mais estreita e com outra altura de linha, então o hero
+   "pulava" na troca (CLS ~0,09 em 320 px). Estas faces locais ajustam a Arial
+   às métricas de cada fonte (largura média medida sobre a copy do hero,
+   ascender/descender do hhea), e a troca deixa de mover o layout.
+   Valores calculados em 08/10 com fontkit (Sora v17, Inter v20 × Arial do macOS).
+   O fornecedor das fontes não muda: só a pilha de reserva. */
+@font-face {
+  font-family: 'Sora Fallback';
+  src: local('Arial'), local('ArialMT');
+  font-weight: 100 500;
+  size-adjust: 115.51%;
+  ascent-override: 83.98%;
+  descent-override: 25.11%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Sora Fallback';
+  src: local('Arial Bold'), local('Arial-BoldMT');
+  font-weight: 600 900;
+  size-adjust: 107.48%;
+  ascent-override: 90.25%;
+  descent-override: 26.98%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial'), local('ArialMT');
+  size-adjust: 106.49%;
+  ascent-override: 90.97%;
+  descent-override: 22.65%;
+  line-gap-override: 0%;
+}
+
+:root {
+  --font-heading: 'Sora', 'Sora Fallback', sans-serif;
+  --font-body: 'Inter', 'Inter Fallback', sans-serif;
+}
