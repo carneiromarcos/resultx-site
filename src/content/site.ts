@@ -9,7 +9,7 @@ export const NAV_LINKS = [
 ] as const
 
 export const CONTACT = {
-  email: 'marcos@empregamais.me',
+  email: 'contato@resultx.app',
   whatsappHref: 'https://wa.me/5511967947557',
   whatsappLabel: '(11) 96794-7557',
 } as const
