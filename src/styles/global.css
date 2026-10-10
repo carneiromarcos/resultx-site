@@ -58,7 +58,7 @@ a { color: inherit; }
 
 .section-head { display: grid; gap: var(--space-4); max-inline-size: 760px; margin-block-end: var(--space-12); }
 .section-head h2 { font-size: var(--page-h2); font-weight: var(--font-bold); letter-spacing: var(--tracking-tight); text-wrap: balance; }
-.section-head p { color: var(--text-secondary); font-size: var(--text-lg); }
+.section-head p:not(.eyebrow) { color: var(--text-secondary); font-size: var(--text-lg); }
 
 .eyebrow {
   display: inline-flex;
