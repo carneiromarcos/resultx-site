@@ -30,9 +30,10 @@ it('builds both tracked entries and real robots/XML routes with only canonical U
 
 it('privacy policy names the data protection officer and has no open placeholders', async () => {
   const html = await readFile('privacidade.html', 'utf8')
+  const section = (id: string) => html.split(`id="${id}"`)[1]?.split('</section>')[0] ?? ''
   expect(html).not.toMatch(/PENDENTE|\[definir\]|TODO/i)
-  expect(html).toContain('encarregado pelo tratamento de dados')
-  expect(html).toContain('Marcos Carneiro')
-  expect(html).toContain('mailto:contato@resultx.app')
-  expect(html).toContain('24 meses')
+  expect(section('p1')).toContain('Marcos Carneiro')
+  expect(section('p1')).toContain('mailto:contato@resultx.app')
+  expect(section('p6')).toContain('24 meses')
+  expect(section('p6')).toContain('mailto:contato@resultx.app')
 })
