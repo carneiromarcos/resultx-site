@@ -27,3 +27,12 @@ it('builds both tracked entries and real robots/XML routes with only canonical U
     expect(xml.querySelector('lastmod')).toBeNull()
   } finally { await rm(outDir, { recursive: true, force: true }) }
 }, 30000)
+
+it('privacy policy names the data protection officer and has no open placeholders', async () => {
+  const html = await readFile('privacidade.html', 'utf8')
+  expect(html).not.toMatch(/PENDENTE|\[definir\]|TODO/i)
+  expect(html).toContain('encarregado pelo tratamento de dados')
+  expect(html).toContain('Marcos Carneiro')
+  expect(html).toContain('mailto:contato@resultx.app')
+  expect(html).toContain('24 meses')
+})
